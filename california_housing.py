@@ -5,3 +5,4 @@ from sklearn import datasets
 data = datasets.fetch_california_housing(as_frame=True)
 
 print(data.head())
+
