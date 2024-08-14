@@ -6,3 +6,4 @@ data = datasets.fetch_california_housing(as_frame=True)
 data = data.frame
 print(data.head())
 
+test = 2*5
