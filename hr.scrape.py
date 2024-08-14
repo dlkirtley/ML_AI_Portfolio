@@ -25,20 +25,22 @@ table = soup.find('table')
 if table:
     # Find all rows in the table
     rows = table.find_all('tr')
-    
-    # List to hold combined lines
-    combined_lines = []
+
+    #Lists to store player names and id numbers
+    names = []
+    player_ids = []
 
     # Iterate through rows
     for row in rows:
         # Find all <span> elements with the specific class inside the row
         spans = row.find_all('span', class_='full-G_bAyq40')
-        names = ' '.join(span.text.strip() for span in spans)
-
+        name = ' '.join(span.text.strip() for span in spans)
+        if name != '':
+            names.append(name.lower())
         # Find all <a> elements with the specific class inside the row
         links = row.find_all('a', class_='bui-link')
         
-        player_ids = []
+        
         for link in links:
             # Extract the href attribute
             href = link.get('href', '')
@@ -47,13 +49,15 @@ if table:
             if '/player/' in href:
                 # Extract player ID by splitting the href
                 player_id = href.split('/player/')[1].split('/')[0]
-                player_ids.append(player_id)
-        for player_id in player_ids:
-             x = f"{names.lower()} {player_id}"
-             print(x.split(' '))
-        
+                if player_id != '':
+                    player_ids.append(player_id)
 
+    #Check that lengths of names list and player_id list are the same
     
+    if len(names)!=len(player_ids):
+         raise ValueError(f"Lists are not of the same length: Names({len(names)}) != Player IDs({len(player_ids)})")
+    else:
+        print('success')
 
 else:
     print("No table found on the page.")
