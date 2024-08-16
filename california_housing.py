@@ -32,16 +32,48 @@ print(calihousing.isna().sum(),"\n")
 #Ensure all Data is of the same type
 print(calihousing.dtypes,"\n")
 
-regression_pipeline = Pipeline([
-    ('scaler', StandardScaler()),
-    ('regressor', LinearRegression())
-])
-regression_pipeline.fit(Xtrain,ytrain)
+#Define X and Y Data. In this case it was chosen that this would be a single feature linear regression problem using median income.
+medinc = Xtrain['MedInc']
+medval = ytrain
 
-ypred = regression_pipeline.predict(Xtest)
-r2 = r2_score(ytest,ypred)
+combined = list(zip(medinc, medval))
+print(combined)
+print(f"{len(medinc)}-----{len(medval)}")
 
-print(r2)
+n = len(medinc)
+
+sigmax = medinc.sum()
+sigmay = medval.sum()
+
+XY = np.array([])
+XX = np.array([])
+YY = np.array([])
+
+for i in range(len(medinc)):
+    XY=np.append(XY,medinc.iloc[i]*medval.iloc[i])
+    XX = np.append(XX,medinc.iloc[i]**2)
+    YY = np.append(YY,medval.iloc[i]**2)
+
+sigmaXY = XY.sum()
+sigmaXX = XX.sum()
+sigmaYY = YY.sum()
+
+a = ((sigmay*sigmaXX)-(sigmay*sigmaXY))/((n*sigmaXX)-sigmaXX)
+b = ((n*sigmaXY)-(sigmax*sigmay))/((n*sigmaXX-sigmaXX))
+
+yline = b*medinc+a
+print(f"Y = {b}x+{a}")
+plt.plot(medinc,yline,'r-')
+plt.xlabel('MedInc')
+plt.ylabel('MedHouseVal')
+plt.title('Median House Value vs. Median Income')
+plt.grid()
+plt.scatter(medinc,medval)
+plt.show()
+
+
+
+
 
 
 
