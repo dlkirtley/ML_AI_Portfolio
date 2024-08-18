@@ -38,7 +38,7 @@ medval = ytrain
 
 combined = zip(medinc,medval)
 combined_sort = sorted(combined, key = lambda x: x[0])
-print(combined_sort)
+
 
 print(f"{len(medinc)}-----{len(medval)}")
 
