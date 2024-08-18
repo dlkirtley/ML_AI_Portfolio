@@ -36,8 +36,10 @@ print(calihousing.dtypes,"\n")
 medinc = Xtrain['MedInc']
 medval = ytrain
 
-combined = list(zip(medinc, medval))
-print(combined)
+combined = zip(medinc,medval)
+combined_sort = sorted(combined, key = lambda x: x[0])
+print(combined_sort)
+
 print(f"{len(medinc)}-----{len(medval)}")
 
 n = len(medinc)
@@ -68,7 +70,7 @@ plt.xlabel('MedInc')
 plt.ylabel('MedHouseVal')
 plt.title('Median House Value vs. Median Income')
 plt.grid()
-plt.scatter(medinc,medval)
+plt.scatter(medinc,medval, alpha = 0.2)
 plt.show()
 
 
